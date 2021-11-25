@@ -9,7 +9,7 @@ public class Game {
     }
 
     public Score getCurrentScore() {
-        return null;
+        return Score.LOVE_LOVE();
     }
 
     public void scoreForPlayerOne() {
