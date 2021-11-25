@@ -48,4 +48,19 @@ class GameSpec extends Specification {
         then: "the winner should be determined"
         winner == Game.Winner.NONE
     }
+
+    def "should let player 1 win when he scores at least 4 points and a total of 2 more point than the opponent"() {
+
+        given: "a game"
+        Game game = new Game()
+
+        when: "player 1 scores 4 points"
+        game.scoreForPlayerOne()
+        game.scoreForPlayerOne()
+        game.scoreForPlayerOne()
+        game.scoreForPlayerOne()
+
+        then: "the winner should be determined"
+        game.pointWonBy() == Game.Winner.PLAYER_ONE
+    }
 }
