@@ -5,6 +5,9 @@ import java.util.List;
 
 public class Match {
 
+    private static final int POINTS_TO_WIN = 6;
+    private static final int POINTS_TO_ADVANTAGE = 2;
+
     private final List<Game> set = new LinkedList<>();
 
     public Game startNewGame() {
@@ -14,8 +17,13 @@ public class Match {
         return newGame;
     }
 
+    public boolean isTie() {
+        return aPlayerHasEnoughPointsToWin()
+                && countWinsForPlayer(Player.ONE)==countWinsForPlayer(Player.TWO);
+    }
+
     public boolean isOver() {
-        return onePlayerHasAtLeast6Games() && onePlayerIsAheadBy2();
+        return aPlayerHasEnoughPointsToWin() && aPlayerHasEnoughAdvantage();
     }
 
     public Player determineWinner() {
@@ -25,12 +33,13 @@ public class Match {
                 ? Player.ONE : Player.TWO;
     }
 
-    private boolean onePlayerHasAtLeast6Games() {
-        return countWinsForPlayer(Player.ONE) >= 6 || countWinsForPlayer(Player.TWO) >= 6;
+    private boolean aPlayerHasEnoughPointsToWin() {
+        return countWinsForPlayer(Player.ONE) >= POINTS_TO_WIN
+                || countWinsForPlayer(Player.TWO) >= POINTS_TO_WIN;
     }
 
-    private boolean onePlayerIsAheadBy2() {
-        return Math.abs(countWinsForPlayer(Player.ONE)-countWinsForPlayer(Player.TWO)) >= 2;
+    private boolean aPlayerHasEnoughAdvantage() {
+        return Math.abs(countWinsForPlayer(Player.ONE)-countWinsForPlayer(Player.TWO)) >= POINTS_TO_ADVANTAGE;
     }
 
     private int countWinsForPlayer(Player player) {

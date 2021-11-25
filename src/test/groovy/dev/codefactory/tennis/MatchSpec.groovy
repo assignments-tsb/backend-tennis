@@ -47,6 +47,28 @@ class MatchSpec extends Specification {
         5            | 6            | false  | null
     }
 
+    def "a match goes to a tie breaker"() {
+
+        given: "a match"
+        Match match = new Match()
+
+        when: "both player has 5 games"
+        winGamesXTimes(match, Player.ONE, 5)
+        winGamesXTimes(match, Player.TWO, 5)
+
+        and: "one player has enough winning points"
+        winGamesXTimes(match, Player.ONE, 1)
+
+        and: "but the other player also made it to the winning point"
+        winGamesXTimes(match, Player.TWO, 1)
+
+        then: "the match is not yet over"
+        !match.isOver()
+
+        and: "the match is a tie"
+        match.isTie()
+    }
+
     private static void winGamesXTimes(Match match, Player player, int times) {
         for (int i=0; i<times; i++) winAGame(match, player)
     }
