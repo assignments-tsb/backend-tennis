@@ -1,28 +1,19 @@
 package dev.codefactory.tennis;
 
+import java.util.Map;
+
 public class Game {
 
-    enum Winner {
-        NONE,
-        PLAYER_ONE,
-        PLAYER_TWO
+    private final Map<Player, Integer> currentScore = Map.of(Player.ONE, 0, Player.TWO, 0);
+
+    public Integer getCurrentScore(Player player) {
+        return 0;
     }
 
-    private Score currentScore = Score.LOVE_LOVE();
-
-    public Score getCurrentScore() {
-        return currentScore;
+    public void pointWonBy(Player player) {
     }
 
-    public void scoreForPlayerOne() {
-        currentScore = currentScore.forPlayer1();
-    }
-
-    public void scoreForPlayerTwo() {
-        currentScore = currentScore.forPlayer2();
-    }
-
-    public Winner pointWonBy() {
+    public Player determineWinner() {
         return null;
     }
 }

@@ -19,7 +19,8 @@ class GameSpec extends Specification {
         Game game = new Game()
 
         then: "the score should be zero-zero"
-        game.getCurrentScore() == Score.LOVE_LOVE()
+        game.getCurrentScore(Player.ONE) == 0
+        game.getCurrentScore(Player.ONE) == 0
     }
 
     def "should let the players score a point in a game"() {
@@ -28,13 +29,14 @@ class GameSpec extends Specification {
         Game game = new Game()
 
         when: "player 1 scores"
-        game.scoreForPlayerOne()
+        game.pointWonBy(Player.ONE)
 
         and: "player 2 scores"
-        game.scoreForPlayerTwo()
+        game.pointWonBy(Player.TWO)
 
         then:
-        game.getCurrentScore() == Score.of(1, 1)
+        game.getCurrentScore(Player.ONE) == 1
+        game.getCurrentScore(Player.TWO) == 1
     }
 
     def "should indicate who won the point"() {
@@ -43,10 +45,10 @@ class GameSpec extends Specification {
         Game game = new Game()
 
         when: "asked if who won the point"
-        Game.Winner winner = game.pointWonBy()
+        Player winner = game.determineWinner()
 
         then: "the winner should be determined"
-        winner == Game.Winner.NONE
+        winner == null
     }
 
     def "should let player 1 win when he scores at least 4 points and a total of 2 more point than the opponent"() {
@@ -55,12 +57,12 @@ class GameSpec extends Specification {
         Game game = new Game()
 
         when: "player 1 scores 4 points"
-        game.scoreForPlayerOne()
-        game.scoreForPlayerOne()
-        game.scoreForPlayerOne()
-        game.scoreForPlayerOne()
+        game.pointWonBy(Player.ONE)
+        game.pointWonBy(Player.ONE)
+        game.pointWonBy(Player.ONE)
+        game.pointWonBy(Player.ONE)
 
         then: "the winner should be determined"
-        game.pointWonBy() == Game.Winner.PLAYER_ONE
+        game.determineWinner() == Player.ONE
     }
 }
