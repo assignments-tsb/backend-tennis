@@ -22,7 +22,7 @@ class GameSpec extends Specification {
         game.getCurrentScore() == Score.LOVE_LOVE()
     }
 
-    def "a player can score a point in a game"() {
+    def "should let the players score a point in a game"() {
 
         given: "a new game"
         Game game = new Game()
@@ -35,5 +35,17 @@ class GameSpec extends Specification {
 
         then:
         game.getCurrentScore() == Score.of(1, 1)
+    }
+
+    def "should indicate who won the point"() {
+
+        given: "a game"
+        Game game = new Game()
+
+        when: "asked if who won the point"
+        Game.Winner winner = game.pointWonBy()
+
+        then: "the winner should be determined"
+        winner == Game.Winner.NONE
     }
 }

@@ -2,6 +2,12 @@ package dev.codefactory.tennis;
 
 public class Game {
 
+    enum Winner {
+        NONE,
+        PLAYER_ONE,
+        PLAYER_TWO
+    }
+
     public Score getCurrentScore() {
         return null;
     }
@@ -12,5 +18,9 @@ public class Game {
 
     public void scoreForPlayerTwo() {
 
+    }
+
+    public Winner pointWonBy() {
+        return null;
     }
 }
