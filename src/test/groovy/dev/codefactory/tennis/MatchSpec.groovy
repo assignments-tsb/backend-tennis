@@ -40,7 +40,7 @@ class MatchSpec extends Specification {
         player1Score | player2Score | isOver | winner
         0            | 0            | false  | null
         1            | 0            | false  | null
-        4            | 0            | true   | Player.ONE
+        6            | 0            | true   | Player.ONE
         4            | 3            | false  | null
         2            | 6            | true   | Player.TWO
     }

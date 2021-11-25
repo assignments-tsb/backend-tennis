@@ -19,8 +19,9 @@ public class Match {
     }
 
     public Player determineWinner() {
+        if (!isOver()) return null;
+
         return countWinsForPlayer(Player.ONE) > countWinsForPlayer(Player.TWO)
-                && isOver()
                 ? Player.ONE : Player.TWO;
     }
 
