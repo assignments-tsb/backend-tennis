@@ -39,7 +39,7 @@ class GameSpec extends Specification {
         game.getCurrentScore(Player.TWO) == 1
     }
 
-    def "should indicate who won the point"() {
+    def "should indicate if theres already a winner"() {
 
         given: "a game"
         Game game = new Game()
@@ -49,6 +49,7 @@ class GameSpec extends Specification {
 
         then: "the winner should be determined"
         winner == null
+        !game.isOver()
     }
 
     def "should let player 1 win when he scores at least 4 points and a total of 2 more point than the opponent"() {
@@ -64,5 +65,8 @@ class GameSpec extends Specification {
 
         then: "the winner should be determined"
         game.determineWinner() == Player.ONE
+
+        and: "the game should be over"
+        game.isOver()
     }
 }
