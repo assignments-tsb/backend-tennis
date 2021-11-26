@@ -11,7 +11,9 @@ public class Match {
     private final List<Game> set = new LinkedList<>();
 
     public Game startNewGame() {
-        var newGame = new Game();
+        var newGame = this.isTie()
+                ? new TieBreakerGame() : new Game();
+
         set.add(newGame);
 
         return newGame;
@@ -51,4 +53,5 @@ public class Match {
 
         return wins;
     }
+
 }

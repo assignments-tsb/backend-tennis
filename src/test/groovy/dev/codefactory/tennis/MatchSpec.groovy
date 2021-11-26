@@ -27,8 +27,8 @@ class MatchSpec extends Specification {
         Match match = new Match()
 
         when: "both player wins X games"
-        winGamesXTimes(match, Player.ONE, player1Score)
-        winGamesXTimes(match, Player.TWO, player2Score)
+        winGamesNTimes(match, Player.ONE, player1Score)
+        winGamesNTimes(match, Player.TWO, player2Score)
 
         then: "the match is over?"
         match.isOver() == isOver
@@ -53,14 +53,14 @@ class MatchSpec extends Specification {
         Match match = new Match()
 
         when: "both player has 5 games"
-        winGamesXTimes(match, Player.ONE, 5)
-        winGamesXTimes(match, Player.TWO, 5)
+        winGamesNTimes(match, Player.ONE, 5)
+        winGamesNTimes(match, Player.TWO, 5)
 
         and: "one player has enough winning points"
-        winGamesXTimes(match, Player.ONE, 1)
+        winGamesNTimes(match, Player.ONE, 1)
 
         and: "but the other player also made it to the winning point"
-        winGamesXTimes(match, Player.TWO, 1)
+        winGamesNTimes(match, Player.TWO, 1)
 
         then: "the match is not yet over"
         !match.isOver()
@@ -69,8 +69,36 @@ class MatchSpec extends Specification {
         match.isTie()
     }
 
-    private static void winGamesXTimes(Match match, Player player, int times) {
-        for (int i=0; i<times; i++) winAGame(match, player)
+
+    def "should go on a tie breaker game when both players reach 7-7"() {
+
+        given: "a match"
+        Match match = new Match()
+
+        when: "the opponent wins 5 games"
+        winGamesNTimes(match, Player.TWO, 5)
+
+        and: "the player wins 6 games"
+        winGamesNTimes(match, Player.ONE, 6)
+
+        and: "the opponent ties the game to 6-6"
+        winGamesNTimes(match, Player.TWO, 1)
+
+        then: "the match is not yet over"
+        !match.isOver()
+
+        and: "should go on a tie breaker mode"
+        match.isTie()
+
+        //not sure how to test this
+        and: "the game can only be won by getting ahead by 2 points"
+        match.startNewGame() instanceof TieBreakerGame
+    }
+
+    private static void winGamesNTimes(Match match, Player player, Integer n) {
+        n.times {
+            winAGame(match, player)
+        }
     }
 
     private static void winAGame(Match match, Player winner) {
