@@ -5,7 +5,10 @@ import java.util.Map;
 
 public class Game {
 
-    private final Map<Player, Integer> currentScore;
+    private static final int MINIMUM_POINTS_TO_WIN = 4;
+    private static final int POINTS_TO_BEAT = 2;
+
+    protected final Map<Player, Integer> currentScore;
 
     public Game() {
         currentScore = new HashMap<>();
@@ -23,20 +26,21 @@ public class Game {
     }
 
     public boolean isOver() {
-        return playerHasAtLeast4Points() && playerHasScore2PointsMore();
+        return playerHasEnoughPointsToWin() && playerIsAhead();
     }
 
     public Player determineWinner() {
         if (!isOver()) return null;
-        return currentScore.get(Player.TWO) >= 4 ? Player.TWO : Player.ONE;
+        return currentScore.get(Player.TWO) >= currentScore.get(Player.ONE)
+                ? Player.TWO : Player.ONE;
     }
 
-    private boolean playerHasAtLeast4Points() {
-        return currentScore.get(Player.ONE) >= 4
-                || currentScore.get(Player.TWO) >= 4;
+    protected boolean playerHasEnoughPointsToWin() {
+        return currentScore.get(Player.ONE) >= MINIMUM_POINTS_TO_WIN
+                || currentScore.get(Player.TWO) >= MINIMUM_POINTS_TO_WIN;
     }
 
-    private boolean playerHasScore2PointsMore() {
-        return Math.abs(currentScore.get(Player.ONE) - currentScore.get(Player.TWO)) >= 2;
+    private boolean playerIsAhead() {
+        return Math.abs(currentScore.get(Player.ONE) - currentScore.get(Player.TWO)) >= POINTS_TO_BEAT;
     }
 }
